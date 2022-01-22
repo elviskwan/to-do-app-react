@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -17,6 +17,7 @@ export const Main = () => {
   const [edit, setEdit] = useState(false);
   const [clear, setClear] = useState(false);
   const [id, setId] = useState(0);
+  const inputRef = useRef();
 
   const addJob = () => {
     setJob((job) => {
@@ -83,6 +84,11 @@ export const Main = () => {
     setUserInput("");
   };
 
+  const focus = () => {
+    inputRef.current.focus();
+    console.log("Editando....");
+  };
+
   return (
     <div>
       <TableContainer component={Paper}>
@@ -141,6 +147,7 @@ export const Main = () => {
                       size="small"
                       onClick={() => {
                         goEdit(j.id);
+                        focus();
                       }}
                       variant="outlined"
                       startIcon={<DeleteIcon />}
@@ -156,6 +163,7 @@ export const Main = () => {
       <br />
       <form onSubmit={!edit ? handleSubmit : handleEdit}>
         <input
+          ref={inputRef}
           type="text"
           size="80"
           placeholder="Type your task here ..."
@@ -175,7 +183,6 @@ export const Main = () => {
         )}
       </form>
       <br />
-      {/* check why this is not working */}
       {clear && (
         <Button variant="outlined" onClick={resetAll}>
           Clear All
